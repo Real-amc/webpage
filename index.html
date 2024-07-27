@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color:whitesmoke; /* Light grey background color */
+            color: #333; /* Dark text color for readability */
+        }
+        /* General styling for the menu bar */
+        .menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: whitesmoke; /* Change to your desired green color */
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px blanchedalmond;
+}
+
+
+        .logo img {
+            height: 50px; /* Adjust based on your logo size */
+            opacity: 0.7; /* Adjust the opacity as needed */
+        }
+
+        .menu-options {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-option {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .menu-option a {
+            text-decoration: none;
+            color: orangered;
+            padding: 10px 15px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-option a:hover {
+            background-color:white;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 8px whitesmoke;
+            z-index: 1000;
+        }
+
+        .submenu-item {
+            padding: 10px 20px;
+            white-space: nowrap;
+        }
+
+        .submenu-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .menu-option:hover .submenu {
+            display: block;
+        }
+
+        /* Styling for the Sign In and Register buttons */
+        .menu-bar .auth-links a {
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+            background-color: blue;
+        }
+
+        .menu-bar .auth-links a:hover {
+            background-color: #696969;
+        }
+
+        /* Carousel container styling */
+        .carousel-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 48%;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .carousel img, .carousel .text-slide {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        .carousel img.active, .carousel .text-slide.active {
+            display: block;
+        }
+
+        .carousel .text-slide {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .menu-bar {
+                flex-direction: column;
+            }
+
+            .menu-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu-option {
+                margin: 10px 0;
+            }
+
+            .menu-bar .auth-links {
+                margin-top: 10px;
+            }
+
+            .carousel-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .carousel {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        footer {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .footer-section {
+            margin-bottom: 20px;
+            flex: 1 1 200px; /* Flex-grow, flex-shrink, and flex-basis */
+            min-width: 200px; /* Ensures a minimum width for responsiveness */
+        }
+        .footer-section h4 {
+            margin-bottom: 5px;
+        }
+        .footer-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .footer-section ul li {
+            margin: 5px 0;
+        }
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .google-map {
+            flex: 1 1 300px; /* Adjust the flex basis as needed */
+            max-width: 300px; /* Set a maximum width for the map */
+            margin-left: 20px; /* Add some space between the sections */
+        }
+
+        .google-map iframe {
+            width: 100%;
+            height: 200px; /* Adjust height as needed */
+            border: none;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #fff; /* Change the color as needed */
+            margin: 20px 0; /* Adjust the margin as needed */
+        }
+
+        /* Custom styles for the red modal */
+        .modal-content {
+            background-color: white; /* Red background color */
+            color: white; /* White text color */
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #ff6347; /* Tomato red border color */
+        }
+
+        .modal-header .close {
+            color: white;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #e60000; /* Slightly darker red for active tab */
+            border-color: #e60000;
+        }
+
+        .nav-tabs .nav-link {
+            color: white;
+        }
+
+       /* Custom styles for the registration and login forms */
+.form-control {
+    background-color: white; /* Change background color to white */
+    border: 1px solid #ced4da; /* Darker border color */
+    color: #495057; /* Dark text color for inputs */
+}
+
+.form-control::placeholder {
+    color: #6c757d; /* Darker placeholder text color */
+}
+
+
+        .btn-primary {
+            background-color:blue; /* Primary button in red */
+            border-color: blue;
+        }
+
+        .btn-primary:hover {
+            background-color:blue; /* Darker red on hover */
+            border-color:blue;
+        }
+/* Add styles for dark mode */
+.dark-mode {
+    background-color: #333; /* Dark background color */
+    color: #fff; /* Light text color */
+}
+
+/* Additional styles for dark mode */
+.dark-mode .menu-bar {
+    background-color: #222; /* Dark background color for menu */
+}
+
+.dark-mode .menu-option a {
+    color: #ccc; /* Light text color for menu links */
+}
+.modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+          }
+          
+          .modal-content {
+            background-color: #1cdd0f;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 20%; 
+          }
+          
+          .close {
+            color: #e50b0b;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+          }
+          
+          .close:hover,
+          .close:focus {
+            color: rgb(113, 9, 224);
+            text-decoration: none;
+            cursor: pointer;
+          }
+         
+/* Add more styles as needed for dark mode */
+
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="logo">
+            <img src="logo.jpg.jpg" alt="">
+        </div>
+        <ul class="menu-options">
+            <li class="menu-option">
+                <a href="#" style="color: black;">HOME</a>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: black;">ABOUT</a>
+                <div class="submenu">
+                    <a href="#" style="color: chartreuse;" class="submenu-item">ACADEMIC'S</a>
+                    <a href="#" style="color: chartreuse;" class="submenu-item">NON-ACADEMIC'S</a>
+                </div>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color:black;">MY PROJECT</a>
+                <div class="submenu">
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 1</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 2</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 3</a>
+                    <a href="#" style="color: aqua;" class="submenu-item">PROJECT 4</a>
+                </div>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color:black;">BLOG</a>
+            </li>
+            <li class="menu-option">
+                <a href="#" style="color: black;">SOCIAL</a>
+                <div class="submenu">
+                    <a href="https://www.linkedin.com/in/yourprofile" style="color: darkorchid;" class="submenu-item">LINKEDIN</a>
+                    <a href="https://www.instagram.com/mamtaxttri7076/https://www.instagram.com/mamtaxttri7076/" style="color: darkorchid;" class="submenu-item">INSTAGRAM</a>
+                    <a href="https://www.facebook.com/suku.tamang.75286/" style="color: darkorchid;" class="submenu-item">FACEBOOK</a>
+                    <a href="https://www.snapchat.com/add/r_dangal24?share_id=03U2GHmOKl4&locale=en-IN" style="color: darkorchid;" class="submenu-item">SNAPCHAT</a>
+                </div>
+            </li>
+            <!-- Menu option structure -->
+<li class="menu-option">                
+    <a href="https://homepage.com/car game.htm" style="color: black;">GAME</a>
+    <div class="submenu">    
+        <a href="RockPaper.html" style="color: aqua;" class="submenu-item" id="carRaceLink">Rock-paper </a>
+    </div>
+</li>
+        </ul>
+        
+        <div class="auth-links">
+        <a href="index.php">LOGIN/REGISTER</a>
+        <!-- Add a button to toggle dark mode -->
+<button id="darkModeToggle"> Dark Mode</button>
+
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel" id="textCarousel">
+            <div class="text-slide active">
+                <br><b>Hi, My name is Ayush Man Chettri, </b>
+                It's a pleasure to meet you all. I wear a few hats in life, so let me give you a glimpse:Firstly, I'm a passionate singer. Music has always been my heartbeat, and expressing myself through songs is where I find true joy.
+                Secondly, I'm an avid footballer. There's something about the beautiful game that captivates me—be it the thrill of scoring goals or the camaraderie on the field.
+                Additionally, I'm a car enthusiast. From the sleek lines of classic models to the cutting-edge technology of modern vehicles, I appreciate the artistry and engineering behind every automobile.
+                And finally, I'm a lover of web development. The digital world fascinates me, and I find immense satisfaction in crafting immersive online experiences and bringing ideas to life through coding.
+                These passions fuel my journey and shape who I am. I'm excited to connect with all of you and share experiences.
+                Looking forward to our interaction!"
+                     <button class="btn btn-primary mt-3"><b>Hire Me</b></button>
+            </div>
+            <div class="text-slide">
+                <b>Web developer</b><br>
+                A web developer is a programmer who develops World Wide Web applications using a client–server model. 
+                The applications typically use HTML, CSS, and JavaScript in the client, and any general-purpose 
+                programming language in the server.
+            </div>
+            <div class="text-slide">
+                <b>Cyber Security</b><br>
+                Cyber security refers to every aspect of protecting an organization and its employees and assets against cyber threats.
+            </div>
+            <div class="text-slide">
+                <b>Singer</b><br>
+                The Singer is a performing artist who vocalises musical sounds with tone and pitch.Music is a very important part of our lives. 
+                Human souls require music to rejuvenate. It brings peace and harmony to their lives. Without any doubt, we can 
+                call music 'the magic of god', and it is this magic that transforms a mere series of sounds to soulful music.
+            </div>
+        </div>
+        <div class="carousel" id="imageCarousel">
+            <img src="myphoto.jpeg.jpg" alt="Image 1" class="active">
+            <img src="Webdeveloper.jpeg" alt="Image 2">
+            <img src="Cloudsecurtity.jpeg" alt="Image 3">
+            <img src="singer.jpg" alt="Image 4">
+        </div>
+    </div>
+
+    <script>
+        let slides = document.querySelector('.slider');
+        let totalSlides = document.querySelectorAll('.slide').length;
+    
+        function moveToNextSlide() {
+            slides.appendChild(slides.firstElementChild);
+            slides.style.transition = 'none';
+            slides.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                slides.style.transition = 'transform 0.5s ease-in-out';
+                slides.style.transform = 'translateX(-100%)';
+            }, 50);
+        }
+    
+        setInterval(moveToNextSlide, 3000); // Change slide every 3 seconds
+    </script>
+
+   
+    <footer>
+        <div class="footer-section">
+            <h4>About</h4>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Our Team</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>My Project</h4>
+            <ul>
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+                <li><a href="#">Project 3</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Blogs</h4>
+            <ul>
+                <li><a href="#">Latest Posts</a></li>
+                <li><a href="#">Popular Posts</a></li>
+                <li><a href="#">Archived Posts</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Social</h4>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+            
+            </ul>
+        </div>
+        <div class="google-map">
+            <!-- Add Google Map iframe -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3547.520310740825!2d88.5009085!3d27.2342064!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e6a109a77a3bd7%3A0x7b9a44ff8a0eb5fd!2sShantinagar%20Sai%20Prasanthi!5e0!3m2!1sen!2sin!4v1718169548234!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </footer>
+
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
+    <script>
+        let imageIndex = 0;
+        let textIndex = 0;
+        const images = document.querySelectorAll('#imageCarousel img');
+        const textSlides = document.querySelectorAll('#textCarousel .text-slide');
+
+        function showNextImage() {
+            images[imageIndex].classList.remove('active');
+            imageIndex = (imageIndex + 1) % images.length;
+            images[imageIndex].classList.add('active');
+        }
+
+        function showNextText() {
+            textSlides[textIndex].classList.remove('active');
+            textIndex = (textIndex + 1) % textSlides.length;
+            textSlides[textIndex].classList.add('active');
+        }
+
+        setInterval(showNextImage, 3000); // Change image every 3 seconds
+        setInterval(showNextText, 3000); // Change text every 3 seconds
+    </script>
+    
+
+    <script>
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+            // Toggle a class on the body to switch between light and dark mode
+            document.body.classList.toggle('dark-mode');
+            
+            // Store the user's preference in localStorage
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        // Check if the user has a preference for dark mode stored in localStorage
+        const storedDarkMode = localStorage.getItem('darkMode');
+
+        // If the user has previously selected dark mode, enable it by default
+        if (storedDarkMode === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Add event listener to the button
+        document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+    </script>
+
+    <!-- Your existing script and Bootstrap imports -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("myModal");
+            const span = document.getElementsByClassName("close")[0];
+        
+            // Show the modal
+            modal.style.display = "block";
+        
+            // Close the modal when the close button is clicked
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        
+            // Close the modal when clicking outside the modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+        
+  
+  
+        </script>
+    <!-- Modal for login/register -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      
+      <p>Welcome! Please login or register to continue.</p>
+      <div class="auth-buttons"><a id="loginRegisterButton" href="index.php">Login/Reg</a></div>
+      
+      
+  </div>
+  </div>
+</body>
+</html>
